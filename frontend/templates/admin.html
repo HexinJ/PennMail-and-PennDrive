@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud Admin</title>
+    <script src="https://use.fontawesome.com/cefbebdc70.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      tt {
+        font-family: monospace;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto;
+        align-items: center;
+        background: linear-gradient(135deg, #00a1ff 0%, #0057ff 100%);
+      }
+
+      .login-container {
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: max(70vw, 400px);
+        margin: 20px auto;
+      }
+
+      .login-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+        font-size: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #666;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #0066ff;
+      }
+
+      .login-button {
+        width: 100%;
+        padding: 0.75rem;
+        background: #0066ff;
+        color: #f1f1f1;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .login-button:hover {
+        background: #0052cc;
+      }
+
+      .create-account {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      h2 {
+        margin-top: 25px;
+        font-size: 14px; 
+        font-weight: 500;
+      }
+
+      h3 {
+        font-size: 13px;
+        font-weight: 500;
+        margin-top: 10px;
+      }
+
+      p, li {
+        font-size: 12px;
+      }
+
+      ul {
+        margin: 10px auto 10px 15px;
+      }
+
+      footer {
+        color: #f1f1f1;
+        text-align: center;
+        margin-top: 100px;
+        margin-bottom: 25px;
+      }
+
+      footer a {
+        color: #f1f1f1;
+      }
+
+      i {
+        font-size: 32px !important;
+        color: #0057ff !important;
+      }
+
+      .container {
+        width: 64px;
+        height: 64px;
+        border-radius: 32px;
+        padding: 16px;
+        display: inline-block;
+        margin: 10px auto;
+        border: 0px solid transparent;
+        background-color: #e8e8e8;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .container > p {
+        margin-top: 24px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 24px !important;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      #logout {
+        margin: 60px auto 0 auto;
+        display: block;
+	width: max-content;
+        text-align: center;
+        font-size: 12px;
+        text-decoration: none;
+        color: #0066ff;
+	padding: 5px 15px;
+	border: 2px solid #0066ff;
+	border-radius: 8px;
+	transition: all ease-in-out 0.3s;
+      }
+
+      #logout:hover {
+        border: 2px solid #0066ff;
+        background: #0066ff;
+        color: #f1f1f1;
+      }
+
+      li {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      .On { color: #32612d; }
+      .Off { color: #800000; }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div style="margin: 0 auto;">
+        <h1 style="margin-bottom: 30px;text-align: center;">Admin Console</h1>
+        <h2>Frontend Servers</h2>
+        <ol style="margin-left: 20px;" id="fservers"></ol>
+
+	<h2>Backend Servers</h2>
+	<ol style="margin-left: 20px;" id="bservers"></ol>
+      </div>
+    </div>
+    <footer>
+      &#169;2024. Made with &#10084;&#65039; by Team 21. All rights reserved. <a href="https://github.com/CIS5550/fa24-cis5050-T21">Check out our code!</a>
+    </footer>
+    <script>
+      const fnodes = ['<|FNODES|>'];
+      const fstatus = ['<|FSTATUS|>'];
+      const bnodes = ['<|BNODES|>'];
+      const bstatus = ['<|BSTATUS|>'];
+      const passwd = '<|PASSWORD|>';
+
+      const fns = fnodes.map(function(e, i) { return [e, fstatus[i]]; });
+      const bns = bnodes.map(function(e, i) { return [e, bstatus[i]]; });
+      for (var i = 0; i < fns.length; i++) {
+        var li = document.createElement("li");
+        li.id = fns[i][0];
+        li.className = (fns[i][1] === "ON" ? "On" : "Off") + " fnode";
+        document.getElementById("fservers").appendChild(li);
+      }
+      for (var i = 0; i < bns.length; i++) {
+        var li = document.createElement("li");
+        li.id = bns[i][0];
+        li.className = (bns[i][1] === "ON" ? "On" : "Off") + " bnode";
+        document.getElementById("bservers").appendChild(li);
+      }
+
+      function toTitleCase(str) {
+        return str.replace(
+          /\w\S*/g,
+          text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+        );
+      }
+
+      var nodes = document.getElementsByTagName("li");
+      for (var i = 0; i < nodes.length; i++) {
+        nodes[i].innerHTML = "<b>" + nodes[i].id + "</b> ";
+        nodes[i].innerHTML += "<span class='" + nodes[i].className.toLowerCase() + "Status'>(Status: " + toTitleCase(nodes[i].className.split(" ")[0]) + ")</span>&emsp;&emsp;";
+        if (nodes[i].className.toLowerCase() === "on bnode") {
+          nodes[i].innerHTML += "<a href='/shutdown?password=" + passwd + "&node=" + encodeURIComponent(nodes[i].id) + "'>Shutdown</a>&emsp;&emsp;";
+          nodes[i].innerHTML += "<a href='/admincontent?password=" + passwd + "&node=" + encodeURIComponent(nodes[i].id) + "'>View Contents</a>";
+	} else if (nodes[i].className.toLowerCase() === "off bnode") {
+          nodes[i].innerHTML += "<a href='/restart?password=" + passwd + "&node=" + encodeURIComponent(nodes[i].id) + "'>Restart</a>";
+        }
+      }
+    </script>
+  </body>
+</html>

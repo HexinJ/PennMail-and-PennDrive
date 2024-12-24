@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud Login Page - T21</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto;
+        align-items: center;
+        background: linear-gradient(135deg, #00a1ff 0%, #0057ff 100%);
+      }
+
+      .login-container {
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        margin: 20px auto;
+      }
+
+      .login-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+        font-size: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #666;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #0066ff;
+      }
+
+      .login-button {
+        width: 100%;
+        padding: 0.75rem;
+        background: #0066ff;
+        color: #f1f1f1;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .login-button:hover {
+        background: #0052cc;
+      }
+
+      .create-account {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .create-account a {
+        color: #0066ff;
+        text-decoration: none;
+      }
+
+      footer {
+        color: #f1f1f1;
+        text-align: center;
+        margin-top: 100px;
+	margin-bottom: 25px;
+      }
+
+      footer a {
+        color: #f1f1f1;
+      }
+
+      .success {
+        color: #507b58;
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 14px;
+	display: none;
+      }
+
+      .error {
+        color: #ab3131;
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 14px;
+	display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1 class="login-title">PennCloud</h1>
+
+      <p id="success-message" class="success">New account successfully created.</p>
+      <p id="login-message" class="error">Please login first.</p>
+      <p id="setup-message" class="error">New account creation failed.</p>
+      <p id="changepassword-message" class="success">Password changed successfully.</p>
+      <form action="/login" method="POST">
+        <div class="form-group">
+          <label for="email">Email ID</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit" class="login-button">Login</button>
+        <div class="create-account">
+          New here? <a href="/signup">Create a new account</a>
+        </div>
+      </form>
+    </div>
+    <footer>
+      &#169;2024. Made with &#10084;&#65039; by Team 21. All rights reserved. <a href="https://github.com/CIS5550/fa24-cis5050-T21">Check out our code!</a>
+    </footer>
+    <script>
+      function isNewUser() {
+        const params = new URLSearchParams(window.location.search);
+	const code = String(params.get("success") || "none");
+        if (code === "0")
+          document.getElementById("success-message").style.display = "block";
+        else if (code === "1")
+          document.getElementById("login-message").style.display = "block";
+        else if (code === "2")
+          document.getElementById("setup-message").style.display = "block";
+        else if (code === "3")
+          document.getElementById("changepassword-message").style.display = "block";
+      }
+      isNewUser();
+    </script>
+  </body>
+</html>

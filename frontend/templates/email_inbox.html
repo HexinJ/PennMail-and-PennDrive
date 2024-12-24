@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Inbox</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #e2f4ff;
+            color: #333;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        
+        .username-container {
+          margin-top: 30px;
+          margin-bottom: 35px; 
+          text-align: center;
+        }
+        
+        .username {
+          font-size: 20px;
+          font-weight: bold;
+          color: white;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(60deg, #00a1ff 0%, #0057ff 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .sidebar h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .sidebar ul {
+            list-style-type: none;
+        }
+        
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+        
+        .sidebar ul li button {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .email-list h2 {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+        
+        #emails {
+            list-style-type: none;
+        }
+        
+        #emails li {
+            background-color: white;
+            border: 1px solid #c9e8fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        #emails li:hover {
+            background-color: #f0f8ff;
+        }
+        
+        .email-detail {
+            display: none;
+        }
+        
+        .email-content {
+            white-space: pre-wrap;
+        }
+        
+        .email-detail h2 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .email-detail p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .back-btn {
+            background-color: #0057ff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: background-color 0.2s;
+        }
+        
+        .back-btn:hover {
+            background-color: #0046d3;
+        }
+        
+        .delete-btn {
+          background-color: red;
+          color: white;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 14px;
+          margin-bottom: 20px;
+          transition: background-color 0.2s;
+        }
+        
+        .delete-btn:hover {
+          background-color: darkred;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .block{
+            display: block;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background-color: #0057ff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #0046d3;
+        }
+        
+        .notification-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            max-width: 300px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .notification-success {
+            background-color: rgba(0, 128, 0, 0.9); 
+        }
+
+        .notification-error {
+            background-color: rgba(255, 0, 0, 0.9); 
+        }
+
+        .notification-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .empty-message {
+          font-size: 22px;
+          color: #555;
+        }
+
+        .email-container {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .subject {
+            flex: 1; 
+        }
+        
+        .timestamp {
+            white-space: nowrap; 
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+          <div class="username-container">
+              <span class="username">PennCloud Mail</span>
+          </div>
+            <ul>
+                <li><a href="email_compose"><button type="button" class="submit-btn">Compose Email</button></a></li>
+                <li><a href="email_inbox"><button type="button" class="submit-btn">Inbox</button></a></li>
+                <li><a href="home"><button type="button" class="submit-btn">Home</button></a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <section id="email-list" class="email-list">
+                <h2 id = "username"></h2>
+                <ul id="emails">
+                </ul>
+            </section>
+
+            <section id="email-detail" class="email-detail hidden">
+              <button id = "back-button" class="back-btn">Back</button>
+              <button id="reply-button" class="back-btn">Reply</button>
+              <button id="forward-button" class="back-btn">Forward</button>
+              <button id="delete-button" class="delete-btn">Delete</button>
+              
+              <p><strong>Sender:</strong> <span id="email-sender"></span></p>
+              <p><strong>Subject:</strong> <span id="email-subject"></span></p>
+              <p><strong>Timestamp:</strong> <span id="email-timestamp"></span></p>
+
+              <br></br>
+              <p id="email-content" class="email-content"></p>
+            </section>          
+        </main>
+    </div>
+
+    <script type="module">
+        async function loadEmails() {
+            const emailList = document.getElementById("emails");
+            emailList.innerHTML = ""; 
+            fetch(`/email-list?limit=20&offset=0`, {
+                credentials: 'include'
+            })
+                .then(response => {
+                    if (response.status == 404) {
+                        console.log("No emails in inbox");
+                        emailList.innerHTML = "<p id='empty-message' class='empty-message'>Your inbox is empty</p>";
+                        return;
+                    }
+                    else if (response.status == 500) {
+                        console.log("Can't find an email in eid_vector");
+                        emailList.innerHTML = "<p id='empty-message' class='empty-message'>Error when loading inbox</p>";
+                        return;
+                    }
+                    else {
+                        return response.text()
+                    }
+                })
+                .then(data => {
+                    if(data){
+                        // Replacing escape characters so json is valid
+                        data = data.replace(/\n/g, '\\n');
+                        data = data.replace(/\r/g, '');
+                        console.log("Email data:" + data);
+                        const emails = JSON.parse(data);
+
+                        // Create a li element for each email and put it into email list
+                        emails.forEach(email => {
+                            const emailContainer = document.createElement("div");
+                            emailContainer.className = "email-container";
+
+                            const timestamp = document.createElement("span");
+                            timestamp.className = "timestamp";
+                            timestamp.textContent = email.timestamp;
+
+                            const subject = document.createElement("span");
+                            subject.className = "subject";
+                            subject.textContent = email.subject;
+
+                            emailContainer.appendChild(subject);
+                            emailContainer.appendChild(timestamp);
+
+                            const li = document.createElement("li");
+                            li.onclick = () => showEmailDetail(email);
+                            li.appendChild(emailContainer);
+                            emailList.appendChild(li);
+                        });
+                    }
+                })
+        }        
+
+        function showEmailDetail(email) {
+            console.log("Opening email detail:", email);
+        
+            const emailListSection = document.getElementById("email-list");
+            const emailDetailSection = document.getElementById("email-detail");
+            const subjectElement = document.getElementById("email-subject");
+            const contentElement = document.getElementById("email-content");
+            const timestampElement = document.getElementById("email-timestamp");
+            const senderElement = document.getElementById("email-sender");
+        
+            if (!emailListSection || !emailDetailSection || !subjectElement || !contentElement) {
+                console.log("One or more required elements for the email are missing");
+                return;
+            }
+        
+            emailListSection.classList.add("hidden");
+            emailListSection.classList.remove("block");
+            emailDetailSection.classList.remove("hidden");
+            emailDetailSection.classList.add("block");
+        
+            subjectElement.textContent = email.subject || "No Subject";
+            timestampElement.textContent = email.timestamp || "No Timestamp";
+            senderElement.textContent = email.sender || "No Sender 💀";
+            contentElement.textContent = email.message || "No Content";
+        }
+      
+        function goBack() {
+            const emailListSection = document.getElementById("email-list");
+            const emailDetailSection = document.getElementById("email-detail");
+        
+            emailListSection.classList.remove("hidden");
+            emailListSection.classList.add("block");
+            emailDetailSection.classList.remove("block");
+            emailDetailSection.classList.add("hidden");
+            loadEmails();
+        }
+
+        function deleteEmail() {
+            const subjectElement = document.getElementById("email-subject");
+            const timestampElement = document.getElementById("email-timestamp");
+            const senderElement = document.getElementById("email-sender");
+
+            const emailData = {
+              sender: senderElement.textContent,
+              subject: subjectElement.textContent,
+              timestamp: timestampElement.textContent
+            };
+
+            console.log(emailData);
+
+            fetch("/delete-email", {
+                method: "DELETE",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                credentials: 'include',
+                body: JSON.stringify(emailData)
+            })
+            .then(response => {
+                if (response.status == 200) {
+                    console.log("Received OK status");
+                    showNotification("Email deleted successfully", true);
+                    goBack(); 
+                } 
+                else if (response.status == 404) {
+                    console.log("Cannot find email in eid_vector");
+                    showNotification("Failed to delete email", false);
+                }
+                else if (response.status == 500) {
+                    console.log("Cannot find email:email_data in storage");
+                    showNotification("Failed to delete email", false);
+                }
+            });
+        }
+        
+        function reply() {
+            const content = document.getElementById("email-content").textContent;
+            const recipient = document.getElementById("email-sender").textContent;
+            const subject = document.getElementById("email-subject").textContent;
+
+            window.location.href = `email_compose.html?content=${encodeURIComponent("\n\n---------- Replying to message ---------\n" + content)}&recipient=${encodeURIComponent(recipient)}&subject=${encodeURIComponent("Re: " + subject)}`;
+        }
+
+        function forward() {
+            const content = document.getElementById("email-content").textContent;
+            const subject = document.getElementById("email-subject").textContent;
+
+            window.location.href = `email_compose.html?content=${encodeURIComponent("\n\n---------- Forwarded message ---------\n" + content)}&subject=${encodeURIComponent("Fwd: " + subject)}`;
+        }
+
+        function showNotification(message, isSuccess) {
+            const notification = document.createElement("div");
+            notification.className = `notification-container ${isSuccess ? "notification-success" : "notification-error"}`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // Make visible
+            setTimeout(() => {
+                notification.classList.add("notification-visible");
+            }, 10);
+
+            // Remove notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove("notification-visible");
+                setTimeout(() => notification.remove(), 300); 
+            }, 2000);
+        }
+
+        async function loadUserName() {
+            const response = await fetch(`/username`, {
+                credentials: 'include',
+                mode: 'cors'
+            });
+            return response;
+        }
+
+        window.onload = async () => {
+            console.log("Cookie: " + document.cookie);
+            const response = await loadUserName();
+            if (response.status == 404) {
+                console.log("Username not found");
+                const emailList = document.getElementById("emails");
+                emailList.innerHTML = "<p id='empty-message' class='empty-message'>Error: username not found, please sign up</p>";
+            }
+            else if (response.status == 500) {
+                console.log("Failed to find user:name in backend");
+                const emailList = document.getElementById("emails");
+                emailList.innerHTML = "<p id='empty-message' class='empty-message'>Error: failed to find user:name in backend</p>";
+            }
+            else {
+                if(response){
+                  const json = await response.json();
+                  const username = document.getElementById("username");
+                  username.textContent = "Welcome, " + json.username;
+                  loadEmails();
+                }
+            }
+            document.getElementById("back-button").addEventListener("click", goBack);
+            document.getElementById("reply-button").addEventListener("click", reply);
+            document.getElementById("forward-button").addEventListener("click", forward);
+            document.getElementById("delete-button").addEventListener("click", deleteEmail);
+
+        }
+    </script>
+</body>
+</html>

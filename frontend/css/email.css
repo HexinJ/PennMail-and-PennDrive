@@ -1,0 +1,209 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #e2f4ff;
+    color: #333;
+}
+
+/* Container */
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.username-container {
+  margin-bottom: 20px; /* Add space below the username */
+  text-align: center;
+}
+
+.username {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 200px;
+    background-color: #3498db;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li button {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Email List */
+.email-list h2 {
+    font-size: 32px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+#emails {
+    list-style-type: none;
+}
+
+#emails li {
+    background-color: white;
+    border: 1px solid #c9e8fa;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#emails li:hover {
+    background-color: #f0f8ff;
+}
+
+/* Email Detail */
+.email-detail {
+    display: none;
+}
+
+.email-content {
+    white-space: pre-wrap;
+}
+
+.email-detail h2 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.email-detail p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Back Button */
+.back-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 20px;
+    transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: #db3434;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 20px;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #b92929;
+}
+
+/* Hidden Class */
+.hidden {
+    display: none;
+}
+
+.block{
+    display: block;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+}
+
+.popup-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white; /* Light red for error-like message */
+  color: black; /* Dark red text */
+  border: 1px solid #c9e8fa;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it appears above other elements */
+  text-align: center;
+  font-size: 16px;
+}
+
+.close-btn {
+  display: block; /* Ensures it's on a new line */
+  margin: 10px auto 0; /* Centers the button horizontally and adds spacing */
+  padding: 5px 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: #2980b9; /* Darker red for hover effect */
+}
+
+.empty-message {
+  font-size: 22px;
+  color: #555;
+}

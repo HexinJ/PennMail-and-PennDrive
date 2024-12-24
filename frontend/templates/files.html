@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penncloud Drive</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #e2f4ff;
+          color: #333;
+        }
+        
+        .container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+        
+        header {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        
+        header h1 {
+          font-size: 2rem;
+          color: #0057ff;
+          margin: 0;
+        }
+        
+        main {
+          background: #fff;
+          border: 1px solid #c9e8fa;
+          border-radius: 8px;
+          padding: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .upload-section {
+          margin-bottom: 20px;
+          text-align: center;
+        }
+        
+        .upload-section h2 {
+          font-size: 1.5rem;
+          margin-bottom: 15px;
+        }
+        
+        .file-input {
+          margin-bottom: 10px;
+        }
+        
+        .upload-button {
+          background-color: #0057ff;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          padding: 10px 20px;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+        
+        .upload-button:hover {
+          background-color: #0046d3;
+        }
+        
+        .file-list-section h2 {
+          font-size: 1.5rem;
+          margin-bottom: 15px;
+          text-align: center;
+        }
+        
+        #file-list {
+          list-style-type: none;
+          padding: 0;
+        }
+        
+        #file-list li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 15px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          margin-bottom: 10px;
+          background: #f9f9f9;
+        }
+        
+        .download-link {
+          margin-top: 4px; 
+          text-decoration: none; 
+          color: #0057ff; 
+        }
+        
+        .download-link:hover {
+          text-decoration: underline;
+        }
+        
+        .file-list-section ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .file-list-section p {
+          text-align: center;
+        }
+        
+        .file-list-section li {
+          display: flex; 
+          justify-content: space-between; 
+          align-items: center;
+          padding: 5px;
+          border-bottom: 1px solid #ccc;
+        }
+        
+        .file-actions {
+          display: flex; 
+          gap: 10px; 
+        }
+        
+        .delete-button {
+          padding: 5px 10px;
+          color: white;
+          background-color: red;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        
+        .delete-button:hover {
+          background-color: darkred;
+        }
+
+        .open-button {
+          padding: 5px 10px;
+          color: white;
+          background-color: #0057ff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        
+        .open-button:hover {
+          background-color: #0046d3;
+        }
+
+        .empty-message {
+          font-size: 22px;
+          color: #555;
+        }
+
+        .popup-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .file-name {
+            width: 100%; 
+            max-width: 250px; 
+            padding: 7px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%; 
+            max-width: 250px;
+        }
+        
+        .cancel-btn, .ok-btn {
+            width: 48%; 
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            color: white;
+        }
+        
+        .cancel-btn {
+            background-color: red;
+        }
+
+        .cancel-btn:hover {
+            background-color: darkred;
+        }
+        
+        .ok-btn {
+            background-color: #0057ff;
+        }
+
+        .ok-btn:hover {
+            background-color: #0046d3;
+        }
+
+        .notification-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            max-width: 300px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .notification-success {
+            background-color: rgba(0, 128, 0, 0.9); 
+        }
+
+        .notification-error {
+            background-color: rgba(255, 0, 0, 0.9); 
+        }
+
+        .notification-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-button {
+            background-color: #0057ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 50px;
+        }
+
+        .back-button:hover {
+          background-color: #0046d3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id = "username"></h1>
+        </header>
+        <main>
+            <section class="upload-section">
+                <h2>Upload a File</h2>
+                <input type="file" id="file-input" class="file-input">
+                <button id="upload-button" class="upload-button">Upload</button>
+                <button id="new-folder-button" class="upload-button">New Folder</button>
+            </section>
+
+            <section class="file-list-section">
+                <h2 id="path-header"></h2>
+                <ul id="file-list">
+                    
+                </ul>
+            </section>
+            <a href="home.html"><button id="back-button" class="back-button">Home</button></a>
+        </main>
+    </div>
+
+    <script type="module">
+        let currentPath = "/";
+        
+        // Upload functionality
+        document.getElementById("upload-button").addEventListener("click", () => {
+            const fileInput = document.getElementById("file-input");
+            const file = fileInput.files[0];
+            const sanitizeString = (str) => str.replace(/[^\x20-\x7E]/g, '');
+
+            if (!file) {
+                showNotification("Please select a file to upload", false);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                fetch(`/upload-file`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": file.type || "application/octet-stream",
+                        "X-File-Name": sanitizeString(file.name), 
+                        "X-File-Path": sanitizeString(currentPath)
+                    },
+                    mode: "cors",
+                    body: reader.result 
+                })
+                .then(response => {
+                    if (response.status == 200) {
+                        showNotification("File uploaded successfully", true);
+                        loadFiles(currentPath);
+                        document.getElementById("file-input").value = null;
+                    } 
+                    else if (response.status == 500) {
+                        showNotification("Failed to store filename:filedata to backend when uploading file", false);
+                    }
+                    else if (response.status == 409) {
+                        showNotification("Error: duplicate file name", false);
+                    }
+                })
+            };
+            
+            // Reading the file in as binary data
+            reader.readAsArrayBuffer(file); 
+        });
+        
+        // New folder functionality
+        document.getElementById("new-folder-button").addEventListener("click", () => {
+            showPopup("New Folder", "new-folder", "");
+        });
+
+        async function showPopup(message, operation, arg) {
+            // Create popup div object
+            const popup = document.createElement("div");
+            popup.className = "popup-message";
+            popup.textContent = message;
+          
+            // Create an input object
+            const input = document.createElement("input");
+            input.className = "file-name";
+            input.type = "text";
+
+            if(operation == "move"){
+                input.placeholder = "Absolute path";
+            }
+
+            // Create a button container for cancel and ok buttons
+            const buttonContainer = document.createElement("div");
+            buttonContainer.className = "button-container";
+        
+            // Add a cancel button
+            const closeButton = document.createElement("button");
+            closeButton.textContent = "Cancel";
+            closeButton.className = "cancel-btn";
+            closeButton.onclick = () => popup.remove();
+        
+            // Add an OK button
+            const okButton = document.createElement("button");
+            okButton.textContent = "OK";
+            okButton.className = "ok-btn";
+            okButton.onclick = () => {
+                const userInput = input.value.trim();
+                if (userInput) {
+                    if (operation == "new-folder"){
+                        createFolder(userInput);
+                        popup.remove();
+                    }
+                    else if (operation == "rename"){
+                        renameFile(arg, userInput);
+                        popup.remove();
+                    }
+                    else if (operation == "move"){
+                        moveFile(arg, currentPath, userInput);
+                        popup.remove();
+                    }
+                }
+            };
+        
+            buttonContainer.appendChild(closeButton);
+            buttonContainer.appendChild(okButton);
+        
+            popup.appendChild(input);
+            popup.appendChild(buttonContainer);
+        
+            document.body.appendChild(popup);
+        }      
+
+        async function moveFile(fileName, oldPath, newPath){
+            // Add / to newPath if not ending with /
+            if(newPath.slice(-1) != "/"){
+                newPath = newPath + "/";
+            }
+            console.log("Moving " + fileName + " from " + oldPath + " to " + newPath);
+
+            // Check if new path is valid
+            const response =  await fetch(`/files-list?folder=${newPath}`);
+            if (response.status == 404) {
+                showNotification("Path is invalid", false);
+                return;
+            }
+
+            // If valid, send request to move
+            const info = {
+                fullPath: currentPath + fileName,
+                fileName: fileName,
+                oldPath: oldPath,
+                newPath: newPath
+            };
+
+            fetch(`/move-file`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: JSON.stringify(info)
+            })
+            .then(response => {
+                if (response.status == 200) {
+                    showNotification("File moved successfully", true);
+                    loadFiles(currentPath);
+                }
+                else if (response.status == 404){
+                    showNotification("File name not found in fid_vector", false);
+                }
+                else if (response.status == 409) {
+                    showNotification("File name already exists in destination folder", false);
+                }
+                else {
+                    showNotification("Failed to move file", false);
+                }
+            });
+        }
+
+        function createFolder(folderName) {
+            if(folderName.slice(-1) != "/"){
+                folderName = folderName + "/";
+            }
+            console.log("Folder name:", folderName);
+            const folder = {
+                name: currentPath + folderName,
+                parentPath: currentPath
+            };
+
+            if(folderName == "../"){
+                showNotification("Folder name cannot be ../", false);
+                return;
+            }
+
+            fetch("/create-folder", {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: JSON.stringify(folder)
+            })
+            .then(response => {
+                if (response.status == 500){
+                    showNotification("Failed to create folder", false);
+                }
+                else if (response.status == 409){
+                    showNotification("Folder name already exists", false);
+                }
+                else if(response.status == 200){
+                    // Success
+                    loadFiles(currentPath);
+                    showNotification("Folder created successfully", true);
+                }
+            })
+        }
+
+        function loadFiles(folder) {
+            const fileList = document.getElementById("file-list");
+            fileList.innerHTML = ""; 
+
+            // See if folder is ../
+            if(folder.endsWith("../")){
+              folder = getParentFolder(currentPath);
+            }
+            fetch(`/files-list?folder=${folder}`)
+            .then(response => {
+                if (response.status == 404) {
+                    console.log("No files in storage");
+                    document.getElementById("path-header").textContent = "Files in " + currentPath;
+                    fileList.innerHTML = "<p id='empty-message' class='empty-message'>No files yet, start by uploading one</p>";
+                    return;
+                }
+                else {
+                    return response.text()
+                }
+            })
+            .then(data => {
+                if(data){
+                    const files = JSON.parse(data);
+
+                    files.forEach(file => {
+                        const li = document.createElement("li");
+                        li.textContent = file.name;
+                    
+                        const actionsDiv = document.createElement("div");
+                        actionsDiv.className = "file-actions";
+
+                        // Open button
+                        const openButton = document.createElement("button");
+                        openButton.textContent = "Open Folder";
+                        openButton.className = "open-button";
+                        openButton.addEventListener("click", () => {
+                            loadFiles(currentPath + file.name);
+                        });
+                                     
+                        // Download button
+                        const downloadButton = document.createElement("button");
+                        downloadButton.textContent = "Download";
+                        downloadButton.className = "open-button";
+                        downloadButton.addEventListener("click", () => {
+                            downloadFile(file.name);
+                        });
+
+                        // Delete file button
+                        const deleteFileButton = document.createElement("button");
+                        deleteFileButton.textContent = "Delete";
+                        deleteFileButton.className = "delete-button";
+                        deleteFileButton.addEventListener("click", () => {
+                            deleteFile(file.name);
+                        });
+
+                        // Delete folder button
+                        const deleteFolderButton = document.createElement("button");
+                        deleteFolderButton.textContent = "Delete";
+                        deleteFolderButton.className = "delete-button";
+                        deleteFolderButton.addEventListener("click", () => {
+                            deleteFolder(currentPath+file.name);
+                            showNotification("Folder deleted successfully", true);
+                        });
+
+                        // Rename button
+                        const renameButton = document.createElement("button");
+                        renameButton.textContent = "Rename";
+                        renameButton.className = "open-button";
+                        renameButton.addEventListener("click", () => {
+                            showPopup("Rename " + file.name, "rename", file.name);
+                        });
+                        
+                        // Move button
+                        const moveButton = document.createElement("button");
+                        moveButton.textContent = "Move";
+                        moveButton.className = "open-button";
+                        moveButton.addEventListener("click", () => {
+                            showPopup("Move " + file.name, "move", file.name);
+                        });
+                        
+                        // Append different buttons for different file type
+                        if(file.name == "../"){
+                            actionsDiv.appendChild(openButton);
+                        }
+                        else if(file.name.slice(-1) == "/"){
+                            actionsDiv.appendChild(openButton);
+                            actionsDiv.appendChild(renameButton);
+                            actionsDiv.appendChild(moveButton);
+                            actionsDiv.appendChild(deleteFolderButton);
+                        }
+                        else{
+                            actionsDiv.appendChild(downloadButton);
+                            actionsDiv.appendChild(renameButton);
+                            actionsDiv.appendChild(moveButton)
+                            actionsDiv.appendChild(deleteFileButton);
+                        }
+                        
+                        li.appendChild(actionsDiv);
+                    
+                        fileList.appendChild(li);
+                    
+                    });
+                    currentPath = folder;
+                    document.getElementById("path-header").textContent = "Files in " + currentPath;
+                    console.log("Current Path: " + currentPath);
+                }
+            })
+        }
+
+        async function downloadFile(fileName) {
+            const response = await fetch(`/download?file=${currentPath+fileName}`);
+
+            if (response.status == 404){
+                console.log("Can't find file in storage.");
+                return;
+            }
+
+            // Read chunks
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let chunks = [];
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                const chunkText = decoder.decode(value, { stream: true });
+                console.log("Chunk: " + chunkText)
+                chunks.push(chunkText);
+            }
+            
+            // Get base64 encoded data and transform to binary
+            const base64String = chunks.join(""); 
+            const binaryData = atob(base64String); 
+            
+            // Transform into a uint8 array
+            const arrayBuffer = new Uint8Array([...binaryData].map(char => char.charCodeAt(0)));
+            
+            const fileType = getFileType(fileName);
+    
+            // Create a new Blob containing file data
+            const blob = new Blob([arrayBuffer], { type: fileType });
+            const url = URL.createObjectURL(blob);
+            
+            // Create link and trigger download
+            const tempLink = document.createElement("a");
+            tempLink.href = url;
+            tempLink.download = fileName;
+            document.body.appendChild(tempLink);
+            tempLink.click(); 
+            document.body.removeChild(tempLink); 
+    
+            URL.revokeObjectURL(url);
+        }
+        
+        function getFileType(filePath) {
+            // Get extension
+            const fileName = filePath.split('/').pop();
+            const extension = fileName.split('.').pop().toLowerCase();
+            
+            // Match extension with file type
+            switch (extension) {
+                case 'pdf':
+                    return 'application/pdf';
+                case 'jpg':
+                case 'jpeg':
+                    return 'image/jpeg';
+                case 'png':
+                    return 'image/png';
+                case 'gif':
+                    return 'image/gif';
+                case 'mp4':
+                    return 'video/mp4';
+                case 'webm':
+                    return 'video/webm';
+                case 'mp3':
+                    return 'audio/mp3';
+                case 'wav':
+                    return 'audio/wav';
+                case 'txt':
+                    return 'text/plain';
+                case 'html':
+                    return 'text/html';
+                case 'csv':
+                    return 'text/csv';
+                case 'json':
+                    return 'application/json';
+                default:
+                    return 'application/octet-stream'; 
+            }
+        }      
+
+        async function renameFile(oldFileName, newFileName) {
+            const file = {
+              parentPath: currentPath,
+              oldFileName: oldFileName,
+              newFileName: newFileName
+            };
+
+            // Name cannot end with "/"
+            if(oldFileName.slice(-1) != "/" && newFileName.slice(-1) == "/"){
+                showNotification("File name cannot end with '/'", false);
+                return;
+            }
+            else if(oldFileName.slice(-1) == "/" && newFileName.slice(-1) != "/"){
+                showNotification("Folder name must end with '/'", false);
+                return;
+            }
+
+            console.log("Old vs. New filename: " + oldFileName + " " + newFileName);
+
+            fetch(`/rename-file`, {
+                method: "POST",
+                mode: "cors",
+                body: JSON.stringify(file)
+            })
+            .then(response => {
+                if (response.status == 200) {
+                    console.log(`File ${oldFileName} renamed successfully.`);
+                    showNotification("File renamed successfully", true);
+                    loadFiles(currentPath);
+                }
+                else if (response.status == 409){
+                    showNotification("File name already exists", false);
+                }
+                else {
+                    showNotification("Failed to rename file", false);
+                }
+            })
+        }
+
+        async function deleteFolder(fullName) {
+            // Get all files (and folders) in the folder
+            const response = await fetch(`/files-list?folder=${fullName}`);
+            const data = await response.text();
+            const files = JSON.parse(data);
+    
+            // Go through each file (or folder) and delete recursively
+            for (const file of files) {
+                if (file.name == "../") {
+                    continue;
+                } 
+                else if (file.name.slice(-1) == "/") {
+                    // Makes sure that doesn't progress until deletion is complete
+                    await deleteFolder(fullName + file.name); 
+                } 
+                else {
+                    const fileToDelete = {
+                        file: fullName + file.name,
+                        folder: fullName
+                    };
+                    await asyncDelete(fileToDelete); 
+                }
+            }
+            
+            // Delete this folder from parent
+            const folderToDelete = {
+                file: fullName,
+                folder: getParentFolder(fullName)
+            };
+            await asyncDelete(folderToDelete); 
+    
+            loadFiles(currentPath);
+        }
+        
+        async function asyncDelete(fileToDelete) {
+            const response = await fetch(`/delete-file`, {
+                method: "DELETE",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(fileToDelete)
+            });
+    
+            if (response.status == 404) {
+                console.log("Cannot find file in fid vector");
+            } 
+            else if(response.status == 500) {
+                console.log("Cannot find file:filedata in storage");
+            } 
+            else {
+                console.log("Deleted " + fileToDelete.file);
+            }
+        }
+      
+        function deleteFile(fileName) {
+            const file = {
+              file: currentPath + fileName,
+              folder: currentPath
+            };
+            fetch(`/delete-file`, {
+                method: "DELETE",
+                mode: "cors",
+                body: JSON.stringify(file)
+            })
+            .then(response => {
+                if (response.status == 200) {
+                    console.log(`File ${fileName} deleted successfully.`);
+                    showNotification("File deleted successfully", true);
+                    loadFiles(currentPath); 
+                } 
+                else {
+                    showNotification("Failed to delete file", false);
+                }
+            })
+        }
+
+        function getParentFolder(path) {
+            // Remove trailing slash if there is one
+            const normalizedPath = path.replace(/\/+$/, '');
+        
+            // Find index of last slash
+            const lastSlashIndex = normalizedPath.lastIndexOf('/');
+
+            // If no last slash, return "". If last slash is at position 0, return "/"
+            if (lastSlashIndex <= 0) {
+                return lastSlashIndex == 0 ? "/" : "";
+            }
+        
+            return normalizedPath.substring(0, lastSlashIndex + 1);
+        }      
+
+        function showNotification(message, isSuccess) {
+            const notification = document.createElement("div");
+            notification.className = `notification-container ${isSuccess ? "notification-success" : "notification-error"}`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // Make visible
+            setTimeout(() => {
+                notification.classList.add("notification-visible");
+            }, 10);
+
+            // Remove notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove("notification-visible");
+                setTimeout(() => notification.remove(), 300); 
+            }, 2000);
+        }
+
+        async function loadUserName() {
+            const response = await fetch(`/username`, {
+                credentials: 'include',
+                mode: 'cors'
+            });
+            return response;
+        }
+
+        window.onload = async () => {
+            console.log("Cookie: " + document.cookie);
+            const response = await loadUserName();
+            if (response.status == 404) {
+                console.log("Username not found");
+                const username = document.getElementById("username");
+                username.textContent = "Error: username not found";
+            }
+            else if (response.status == 500) {
+                console.log("Failed to find user:name in backend");
+                const username = document.getElementById("username");
+                username.textContent = "Error: failed to find user:name in backend";
+            }
+            else {
+                if(response){
+                  const json = await response.json();
+                  const username = document.getElementById("username");
+                  username.textContent = "Welcome to PennCloud Drive, " + json.username;
+                  loadFiles("/");
+                }
+            }
+        }
+    </script>
+</body>
+</html>
