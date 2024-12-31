@@ -855,10 +855,10 @@ void *start_func(void *args)
 			}
 
 			// Push read_bytes chars into the vector
-			char temp[524288];
+			char temp[65532];
 			while (read_bytes > 0)
 			{
-				int bytes_read = std::min(524288, read_bytes);
+				int bytes_read = std::min(65532, read_bytes);
 				int num_bytes_read = recv(connfd, temp, bytes_read, 0);
 				buffer.insert(buffer.end(), temp, temp + num_bytes_read);
 				read_bytes -= num_bytes_read;
