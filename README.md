@@ -16,7 +16,7 @@ By collaborating with three other teammates, I created a small version of Gmail 
 <img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/email_list.png" width="700">
 
 - View Email Detail
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/more_email_detail.png" width="700">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/more_view_detail.png" width="700">
 
 - Send Email
 <img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/send_email.png" width="700">
