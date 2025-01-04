@@ -4,25 +4,25 @@ By collaborating with three other teammates, I created a small version of Gmail 
 # Walkthrough and Screenshots
 
 - Create an account
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/login.png" width="500">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/signup.png" width="700">
 
 - Login
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/login.png" width="500">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/login.png" width="700">
 
 - Home
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/home.png" width="500">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/home.png" width="700">
 
 - View Inbox
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/email_list.png" width="500">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/email_list.png" width="700">
 
 - View Email Detail
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/more_email_detail.png" width="500">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/more_email_detail.png" width="700">
 
 - Send Email
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/send_email.png" width="500">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/send_email.png" width="700">
 
 - Files
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/files.png" width="500">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/blob/main/screenshots/files.png" width="700">
 
 # Compile and Execution Instructions
 
