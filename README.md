@@ -1,3 +1,15 @@
+# Introduction
+By collaborating with three other teammates, I created a small version of Gmail and Google Drive entitled PennMail and PennDrive. PennMail provides an email server that allows users to send emails to other users, view their inbox, and view individual email detail. PennDrive provides distributed file storage that allows users to upload/download files up to 10MB, create nested folders, and rename/move files and folders. 
+
+# Screenshots
+
+- Create an account
+<img src="https://github.com/HexinJ/Checkers/blob/main/Checkers.png" width="500">
+
+<img src="https://github.com/HexinJ/Checkers/blob/main/Checkers.png" width="500">
+
+<img src="https://github.com/HexinJ/Checkers/blob/main/Checkers.png" width="500">
+
 # Compile and Execution Instructions
 
 To compile our project, please run `make` in the project home directory. There are 5 processes that must be running to evaluate all implemented features of our PennCloud project; we include the relevant command line commands to run for each process on the CIS 5050 VM:
