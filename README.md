@@ -4,11 +4,25 @@ By collaborating with three other teammates, I created a small version of Gmail 
 # Walkthrough and Screenshots
 
 - Create an account
-<img src="https://github.com/HexinJ/PennMail-and-PennDrive/screenshots/login" width="500">
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/screenshots/signup.png" width="500">
 
-<img src="https://github.com/HexinJ/Checkers/blob/main/Checkers.png" width="500">
+- Login
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/screenshots/login.png" width="500">
 
-<img src="https://github.com/HexinJ/Checkers/blob/main/Checkers.png" width="500">
+- Home
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/screenshots/home.png" width="500">
+
+- View Inbox
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/screenshots/email_list.png" width="500">
+
+- View Email Detail
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/screenshots/more_email_detail.png" width="500">
+
+- Send Email
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/screenshots/send_email.png" width="500">
+
+- Files
+<img src="https://github.com/HexinJ/PennMail-and-PennDrive/screenshots/files.png" width="500">
 
 # Compile and Execution Instructions
 
