@@ -1,5 +1,5 @@
 # Introduction
-By collaborating with three other teammates, I created a small version of Gmail and Google Drive entitled PennMail and PennDrive. PennMail provides an email server that allows users to send emails to other users, view their inbox, and view individual email detail. PennDrive provides distributed file storage that allows users to upload/download files up to 10MB, create nested folders, and rename/move files and folders. 
+By collaborating with three other teammates, I created a web application that is designed to be a small version of Gmail and Google Drive entitled PennMail and PennDrive. PennMail provides an email server that allows users to send emails to other users, view their inbox, and view individual email detail. PennDrive provides distributed file storage that allows users to upload/download files up to 10MB, create nested folders, and rename/move files and folders. 
 
 # Walkthrough and Screenshots
 
